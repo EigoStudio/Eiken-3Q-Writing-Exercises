@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eiken 3rd: Useful Expressions and Writing Exercise</title>
+<style>
+    :root {
+        --primary-blue: #2980b9;
+        --navy-blue: #1b4f72; 
+        --soft-blue: #e8f4f8;
+        --accent-orange: #e67e22;
+        --light-orange: #f39c12;
+        --bg-orange: #fef5e7;
+        --border-blue: #add8e6;
+        --correct-green: #27ae60;
+        --wrong-red: #c0392b;
+        --base-font: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "Yu Gothic", "Meiryo", sans-serif;
+    }
+
+    body {
+        font-family: var(--base-font);
+        background-color: #f4f7f9;
+        color: #2c3e50;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        margin: 0;
+    }
+
+    /* --- PC / Base Layout --- */
+    header { text-align: center; margin-bottom: 25px; width: 100%; max-width: 900px; }
+    h1 { font-size: 1.8rem; margin-bottom: 5px; color: var(--primary-blue); }
+    .sub-title { font-size: 1.1rem; color: #555; margin-bottom: 20px; font-weight: bold; }
+
+    .control-panel {
+        display: flex; align-items: center; justify-content: center; gap: 20px;
+        background: rgba(255,255,255,0.8); padding: 10px 24px; border-radius: 50px; display: inline-flex;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .settings { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: bold; color: var(--primary-blue); }
+    .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 22px; }
+    .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: var(--light-orange); }
+    input:checked + .slider:before { transform: translateX(18px); }
+
+    .tabs { display: flex; gap: 8px; }
+    .tab-btn {
+        padding: 8px 18px; border-radius: 20px; border: 2px solid var(--primary-blue);
+        background: white; color: var(--primary-blue); cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+    }
+    .tab-btn.active { background: var(--primary-blue); color: white; }
+
+    .container {
+        background: white; max-width: 900px; width: 100%; padding: 40px; border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center;
+        box-sizing: border-box;
+    }
+
+    .question-box {
+        font-size: 1.3rem; background-color: var(--bg-orange); border-bottom: 4px solid var(--light-orange);
+        padding: 25px 20px; border-radius: 20px; margin-bottom: 25px; text-align: center;
+        min-height: 40px; display: flex; align-items: center; justify-content: center;
+        font-weight: bold; color: #d35400;
+    }
+
+    .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width: 700px; margin: 0 auto; }
+    
+    .choice-btn, .word-btn {
+        background-color: var(--soft-blue); color: var(--navy-blue); border: 2px solid var(--border-blue);
+        padding: 15px 20px; border-radius: 25px; cursor: pointer; font-size: 1.2rem; font-family: var(--base-font); font-weight: 800; transition: all 0.2s;
+    }
+    .choice-btn:hover { background-color: #d4e6f1; border-color: var(--primary-blue); }
+    
+    .word-bank { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+    
+    .word-btn { background-color: #fff; border: 2px solid var(--border-blue); color: var(--navy-blue); }
+    .word-btn:hover { background-color: var(--soft-blue); }
+    .word-btn.used { visibility: hidden; pointer-events: none; }
+
+    .answer-area {
+        min-height: 80px; border: 3px dashed var(--border-blue); border-radius: 20px; padding: 20px;
+        margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; background: #fafcfd;
+    }
+
+    .answer-word {
+        background-color: var(--soft-blue); color: var(--navy-blue); border: 2px solid var(--border-blue);
+        padding: 10px 18px; border-radius: 15px; cursor: grab; font-size: 1.2rem; font-weight: 800;
+    }
+
+    .final-sentence {
+        font-size: 1.6rem; color: var(--navy-blue); font-weight: bold; padding: 20px;
+        line-height: 1.8; text-align: center; max-width: 800px; margin: 0 auto;
+    }
+
+    .action-btn {
+        background: var(--accent-orange); color: white; border: none; padding: 18px 60px;
+        border-radius: 40px; font-size: 1.3rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #d35400; margin-top: 15px;
+        transition: all 0.1s;
+    }
+    .action-btn:active { transform: translateY(4px); box-shadow: none; }
+    .action-btn:disabled { background: #ccc; box-shadow: 0 4px 0 #999; cursor: not-allowed; }
+    
+    #tries-left { font-weight: bold; color: var(--wrong-red); margin-top: 10px; font-size: 0.9rem; }
+
+    /* --- MOBILE SPECIFIC ADJUSTMENTS --- */
+    @media screen and (max-width: 600px) {
+        body { padding: 10px; }
+        h1 { font-size: 1.2rem; }
+        .sub-title { font-size: 0.85rem; margin-bottom: 10px; }
+        .control-panel { padding: 5px 15px; transform: scale(0.9); }
+        .container { padding: 20px 15px; border-radius: 20px; }
+        .question-box { padding: 15px 10px; margin-bottom: 15px; font-size: 1rem; border-bottom-width: 3px; }
+        .choices-grid { gap: 8px; }
+        .choice-btn, .word-btn { padding: 10px 12px; font-size: 0.9rem; border-radius: 15px; }
+        .answer-area { min-height: 60px; padding: 10px; margin-bottom: 10px; }
+        .answer-word { padding: 6px 10px; font-size: 0.9rem; border-radius: 10px; }
+        .action-btn { padding: 12px 40px; font-size: 1.1rem; margin-top: 5px; }
+        .final-sentence { font-size: 1.2rem; padding: 10px; line-height: 1.5; }
+    }
+
+    /* --- Print Styles（白黒印刷対応） --- */
+    #print-area { display: none; }
+    @media print {
+        .container, header, .no-print { display: none !important; }
+        #print-area { display: block; color: black; background: white; width: 100%; font-family: var(--base-font); }
+        .print-page { page-break-after: always; padding: 10px 30px; }
+        .print-title { font-size: 1.5rem; text-align: center; border-bottom: 2px solid #000; margin-bottom: 15px; padding-bottom: 5px; font-weight: bold; }
+        .print-sub { font-size: 0.9rem; text-align: left; margin-bottom: 20px; color: #000; font-weight: bold; }
+        .user-info { font-size: 1rem; margin-bottom: 25px; text-align: right; display: flex; justify-content: flex-end; gap: 30px;}
+        .print-vocab-q { margin-bottom: 18px; font-size: 1.1rem; display: flex; align-items: flex-end; }
+        .vocab-jp { width: 55%; }
+        .vocab-line { flex-grow: 1; border-bottom: 1px solid #000; height: 28px; }
+        .print-sentence-q { margin-bottom: 35px; page-break-inside: avoid; }
+        .sentence-ja { font-size: 1.1rem; margin-bottom: 5px; font-weight: bold; }
+        .sentence-choices { font-style: italic; font-size: 1rem; margin-bottom: 8px; color: #333; }
+        .sentence-line { border-bottom: 1px solid #000; height: 40px; margin-top: 10px; }
+    }
+</style>
+</head>
+<body>
+
+<header class="no-print">
+    <h1>英検3級 Useful Expressions and Writing Exercise</h1>
+    <div class="sub-title">Topic Question: Do you like vegetables?</div>
+    
+    <div class="control-panel">
+        <div class="settings">
+            <span>Audio</span>
+            <label class="switch">
+                <input type="checkbox" id="audioToggle" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="tabs">
+            <button class="tab-btn active" id="tab-vocab" onclick="switchMode('vocab')">Vocabulary</button>
+            <button class="tab-btn" id="tab-reorder" onclick="switchMode('reorder')">Sentences</button>
+        </div>
+    </div>
+</header>
+
+<div class="container no-print">
+    <div id="quiz-ui">
+        <div class="question-box" id="questionText">Loading...</div>
+        <div id="interactive-area"></div>
+        <div id="tries-left"></div>
+        <div id="resultMsg" style="margin: 20px 0; font-size: 1.4rem; font-weight: bold;"></div>
+        <button class="action-btn" id="mainActionBtn" onclick="handleMainAction()" disabled>Check Answer</button>
+    </div>
+    <button onclick="window.print()" style="margin-top:25px; background:none; border:none; text-decoration:underline; cursor:pointer; color:#666; font-size: 0.85rem; font-weight: bold;">Worksheet (A4 2枚) を印刷する</button>
+</div>
+
+<!-- 🖨️ 印刷用エリア（白黒仕様） -->
+<div id="print-area">
+    <!-- 1枚目: ボキャブラリー -->
+    <div class="print-page">
+        <div class="print-title">英検3級 Useful Expressions: Vocabulary</div>
+        <div class="print-sub">Topic: Do you like vegetables?</div>
+        <div class="user-info">
+            <div>Name: ___________________________</div>
+            <div>Date: ____ / ____ / ____</div>
+        </div>
+        <div id="print-vocab-content"></div>
+    </div>
+    <!-- 2枚目: 並べ替え問題 -->
+    <div class="print-page">
+        <div class="print-title">英検3級 Writing Exercise: Sentences</div>
+        <div class="print-sub">Topic: Do you like vegetables?</div>
+        <div class="user-info">
+            <div>Name: ___________________________</div>
+            <div>Date: ____ / ____ / ____</div>
+        </div>
+        <div id="print-sentence-content"></div>
+    </div>
+</div>
+
+<script>
+// 【変更なし】並べ替え問題用の10個の例文データ[cite: 1]
+const sentencesData = [
+    { ja: "野菜は健康に良いです。健康でいつづけるために野菜を食べます。", en: "Vegetables are good for my health. I eat them to stay healthy." },
+    { ja: "おいしい野菜がたくさんあります。", en: "There are many delicious vegetables." },
+    { ja: "野菜はカラフルです。だから野菜を食べるのは楽しいです。", en: "Vegetables are colorful, so I enjoy eating them." },
+    { ja: "私は毎日トマトを食べます。トマトは私の大好物です。", en: "I eat tomatoes every day. They are my favorite food." },
+    { ja: "サラダを作ることはとても簡単です。野菜を切るだけです。", en: "Making a salad is very easy. You just cut them." },
+    { ja: "野菜は美味しくないです。", en: "They do not taste good." },
+    { ja: "野菜のなかには苦いものもあります。", en: "Some vegetables are bitter." },
+    { ja: "私は緑色の野菜が好きではありません。", en: "I do not like green vegetables." },
+    { ja: "私は野菜よりも果物の方が好きです。", en: "I like fruit better than vegetables." },
+    { ja: "私は野菜を食べると、お腹が痛くなります。", en: "I get a stomachache when I eat vegetables." }
+];
+
+// 【修正完了】ボキャブラリー用（シンプルに短く洗練させた表現）
+const vocabData = [
+    { jp: "健康に良い", en: "good for my health" },
+    { jp: "健康でいつづけるために", en: "to stay healthy" },
+    { jp: "たくさんの美味しい野菜", en: "many delicious vegetables" },
+    { jp: "カラフル（色彩豊か）な", en: "colorful" },
+    { jp: "私の一番大好きな食べ物", en: "my favorite food" },
+    { jp: "サラダを作る", en: "make a salad" },
+    { jp: "美味しくない、味が良くない", en: "do not taste good" },
+    { jp: "苦い", en: "bitter" },
+    { jp: "果物の方が好き", en: "like fruit better" },
+    { jp: "お腹が痛くなる", en: "get a stomachache" }
+];
+
+let currentMode = 'vocab';
+let currentIdx = 0;
+let selectedWord = "";
+let userSentence = [];
+let isChecked = false;
+let tries = 3;
+
+function switchMode(mode) {
+    currentMode = mode;
+    currentIdx = 0;
+    tries = 3;
+    document.getElementById('tab-vocab').classList.toggle('active', mode === 'vocab');
+    document.getElementById('tab-reorder').classList.toggle('active', mode === 'reorder');
+    loadQuestion();
+}
+
+function speak(text) {
+    if (!document.getElementById('audioToggle').checked) return;
+    const uttr = new SpeechSynthesisUtterance(text);
+    uttr.lang = "en-US";
+    uttr.rate = 0.85;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(uttr);
+}
+
+function loadQuestion() {
+    isChecked = false;
+    tries = 3;
+    document.getElementById('resultMsg').textContent = "";
+    document.getElementById('tries-left').textContent = "";
+    const btn = document.getElementById('mainActionBtn');
+    btn.textContent = "Check Answer";
+    btn.disabled = true;
+
+    const area = document.getElementById('interactive-area');
+    area.innerHTML = "";
+
+    if (currentMode === 'vocab') {
+        const item = vocabData[currentIdx];
+        document.getElementById('questionText').textContent = item.jp;
+        let choices = [item.en];
+        while(choices.length < 4) {
+            let r = vocabData[Math.floor(Math.random()*vocabData.length)].en;
+            if(!choices.includes(r)) choices.push(r);
+        }
+        choices.sort(() => Math.random() - 0.5);
+        
+        const grid = document.createElement('div');
+        grid.className = "choices-grid";
+        choices.forEach(c => {
+            const b = document.createElement('button');
+            b.className = "choice-btn";
+            b.textContent = c;
+            b.onclick = () => {
+                if(isChecked) return;
+                selectedWord = c;
+                document.querySelectorAll('.choice-btn').forEach(btn => btn.style.backgroundColor = "var(--soft-blue)");
+                b.style.backgroundColor = "#d4e6f1";
+                btn.disabled = false;
+                speak(c);
+            };
+            grid.appendChild(b);
+        });
+        area.appendChild(grid);
+    } else {
+        const item = sentencesData[currentIdx];
+        document.getElementById('questionText').textContent = item.ja;
+        userSentence = [];
+        
+        const ansArea = document.createElement('div');
+        ansArea.className = "answer-area";
+        ansArea.id = "answerArea";
+        ansArea.ondragover = (e) => e.preventDefault();
+        ansArea.ondrop = drop;
+        area.appendChild(ansArea);
+
+        const bank = document.createElement('div');
+        bank.className = "word-bank";
+        bank.id = "wordBank";
+        
+        let words = item.en.replace(/([.,!?;])/g, " $1").split(" ").filter(w => w !== "");
+        words.sort(() => Math.random() - 0.5).forEach((w, idx) => {
+            const b = document.createElement('button');
+            b.className = "word-btn";
+            b.textContent = w;
+            b.id = "word-" + idx;
+            b.onclick = () => {
+                userSentence.push({text: w, btnId: b.id});
+                b.classList.add('used');
+                renderSentence();
+                btn.disabled = false;
+            };
+            bank.appendChild(b);
+        });
+        area.appendChild(bank);
+        renderSentence();
+    }
+}
+
+function renderSentence() {
+    const area = document.getElementById('answerArea');
+    area.innerHTML = "";
+    userSentence.forEach((obj, i) => {
+        const s = document.createElement('div');
+        s.className = "answer-word";
+        s.textContent = obj.text;
+        s.draggable = true;
+        s.dataset.index = i;
+        s.ondragstart = (e) => e.dataTransfer.setData("text", e.target.dataset.index);
+        s.onclick = () => {
+            document.getElementById(obj.btnId).classList.remove('used');
+            userSentence.splice(i, 1);
+            renderSentence();
+        };
+        area.appendChild(s);
+    });
+}
+
+function drop(e) {
+    e.preventDefault();
+    const fromIdx = e.dataTransfer.getData("text");
+    const toIdx = e.target.dataset.index;
+    if (toIdx !== undefined) {
+        const movedItem = userSentence.splice(fromIdx, 1)[0];
+        userSentence.splice(toIdx, 0, movedItem);
+        renderSentence();
+    }
+}
+
+function handleMainAction() {
+    const btn = document.getElementById('mainActionBtn');
+    const resultMsg = document.getElementById('resultMsg');
+    const triesMsg = document.getElementById('tries-left');
+
+    if (!isChecked) {
+        let correctText = currentMode === 'vocab' ? vocabData[currentIdx].en : sentencesData[currentIdx].en;
+        let isCorrect = false;
+
+        if (currentMode === 'vocab') {
+            isCorrect = (selectedWord === correctText);
+        } else {
+            let userStr = userSentence.map(o => o.text).join(" ").replace(/\s+([.,!?;])/g, "$1");
+            isCorrect = (userStr === correctText);
+        }
+
+        if (isCorrect) {
+            isChecked = true;
+            triesMsg.textContent = "";
+            speak(correctText);
+            const area = document.getElementById('interactive-area');
+            area.innerHTML = `<div class="final-sentence" style="color:var(--correct-green);">${correctText}</div>`;
+            resultMsg.innerHTML = "Excellent! ✨";
+            resultMsg.style.color = "var(--correct-green)";
+            btn.textContent = "Next →";
+        } else {
+            tries--;
+            speak("Try again");
+            if (tries > 0) {
+                resultMsg.innerHTML = "Not quite... Try again!";
+                resultMsg.style.color = "var(--wrong-red)";
+                triesMsg.textContent = `あと ${tries} 回チャレンジできます`;
+            } else {
+                isChecked = true;
+                triesMsg.textContent = "";
+                resultMsg.innerHTML = `Out of tries. <br><span style="font-size:1.1rem; font-weight:normal; color:#333;">Answer:</span> <br>${correctText}`;
+                resultMsg.style.color = "var(--wrong-red)";
+                btn.textContent = "Next →";
+            }
+        }
+    } else {
+        currentIdx++;
+        const max = currentMode === 'vocab' ? vocabData.length : sentencesData.length;
+        if (currentIdx < max) loadQuestion();
+        else {
+            document.getElementById('quiz-ui').innerHTML = "<h3 style='color:var(--primary-blue); font-size:1.5rem;'>Great Job! All steps completed. 🎉</h3>";
+            btn.style.display = "none";
+        }
+    }
+}
+
+function preparePrint() {
+    const vContent = document.getElementById('print-vocab-content');
+    vContent.innerHTML = vocabData.map((d, i) => `
+        <div class="print-vocab-q">
+            <span class="vocab-jp">${i+1}. ${d.jp}</span>
+            <div class="vocab-line"></div>
+        </div>
+    `).join('');
+
+    const sContent = document.getElementById('print-sentence-content');
+    sContent.innerHTML = sentencesData.map((d, i) => {
+        let words = d.en.replace(/([.,!?;])/g, " $1").split(" ").filter(w => w !== "").sort(() => Math.random() - 0.5);
+        return `
+            <div class="print-sentence-q">
+                <div class="sentence-ja">${i+1}. ${d.ja}</div>
+                <div class="sentence-choices">[ ${words.join(" / ")} ]</div>
+                <div class="sentence-line"></div>
+            </div>
+        `;
+    }).join('');
+}
+
+window.onload = () => {
+    loadQuestion();
+    preparePrint();
+};
+</script>
+</body>
+</html>
