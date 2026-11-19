@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英検3級 文法 15章 Part4 too ... to 〜 / ... enough to 〜</title>
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  :root {
+    --primary-blue: #1e88e5;
+    --accent-orange: #ff9800;
+    --text-dark: #2c3e50;
+    --bg-color: #f0f7ff;
+    --border-color: #bbdefb;
+    --success-green: #43a047;
+  }
+
+  body {
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HGMaruGothicMPRO", sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+  }
+
+  .container {
+    background: white;
+    max-width: 850px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(30, 136, 229, 0.08);
+    margin-top: 20px;
+  }
+
+  h2 {
+    color: var(--primary-blue);
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+  }
+
+  /* 状況ストーリー表示ボックス */
+  .situation-box {
+    background-color: #fffde7;
+    border: 2px solid #fff59d;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .situation-title {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #f57f17;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .situation-text-en {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .situation-text-ja {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.4;
+  }
+
+  /* 目標文の和訳表示 */
+  .sentence-target-box {
+    background-color: #e8f5e9;
+    border: 2px solid #a5d6a7;
+    border-radius: 12px;
+    padding: 12px 18px;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1b5e20;
+    margin-bottom: 20px;
+  }
+
+  /* タブUI */
+  .tab-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    padding: 5px 12px;
+    border: 2px solid var(--primary-blue);
+    background-color: white;
+    color: var(--text-dark);
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .tab-btn:hover {
+    background-color: #e3f2fd;
+  }
+
+  .tab-btn.active {
+    background-color: var(--primary-blue);
+    color: white;
+  }
+
+  .progress-container {
+    width: 100%;
+    background-color: #eee;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    height: 8px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background-color: var(--accent-orange);
+    width: 0%;
+    transition: width 0.3s;
+  }
+
+  .progress-text {
+    text-align: right;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  /* ステップカード */
+  .step-card {
+    background: #f7faff;
+    border: 2px dashed var(--border-color);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .step-header {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-badge {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+  }
+
+  .question-instruction {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  .phrase-select-area {
+    font-size: 1.25rem;
+    line-height: 2;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  select {
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 8px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-dark);
+    background-color: white;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: all 0.2s;
+    vertical-align: middle;
+  }
+
+  select:hover {
+    border-color: var(--primary-blue);
+  }
+
+  select:focus {
+    outline: none;
+    border-color: var(--accent-orange);
+  }
+
+  /* バブル（並べ替えボタン） */
+  .word-btn {
+    background-color: white;
+    color: var(--text-dark);
+    border: 2px solid var(--primary-blue);
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 5px;
+    display: inline-block;
+    font-family: inherit;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .word-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(30, 136, 229, 0.2);
+  }
+
+  .word-btn.used {
+    border-color: #e0e0e0;
+    color: #ccc;
+    background-color: #f5f5f5;
+    pointer-events: none;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .answer-area {
+    min-height: 75px;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    background-color: #ffffff;
+    border-radius: 10px;
+  }
+
+  .celebration-text {
+    font-size: 1.8rem;
+    color: #2e7d32;
+    font-weight: bold;
+    text-align: center;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    line-height: 1.6;
+    padding: 20px 0;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .action-btn {
+    padding: 12px 35px;
+    font-size: 1.05rem;
+    background-color: var(--success-green);
+    color: white;
+    border: none;
+    border-radius: 35px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 0 #2e7d32;
+    display: block;
+    margin: 15px auto;
+    font-family: inherit;
+    transition: transform 0.1s, background-color 0.2s;
+  }
+
+  .action-btn:active {
+    transform: translateY(4px);
+    box-shadow: none;
+  }
+
+  #printable-sheet { display: none; }
+
+  @media (max-width: 600px) {
+    .container { padding: 15px; }
+    .question-instruction { font-size: 1.05rem; }
+    .word-btn { font-size: 0.9rem; padding: 6px 12px; margin: 3px; }
+    .celebration-text { font-size: 1.3rem; }
+    select { font-size: 0.95rem; padding: 6px; }
+  }
+
+  /* --- 印刷用スタイル（モノクロ最適化） --- */
+  @page {
+    margin: 10mm 12mm;
+  }
+
+  @media print {
+    html, body {
+      background-color: white !important;
+      color: black !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+
+    .container, h2, .tab-container {
+      display: none !important;
+    }
+
+    #printable-sheet {
+      display: block !important;
+      position: relative !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HGMaruGothicMPRO", sans-serif !important;
+    }
+
+    .sheet-header {
+      text-align: center;
+      border-bottom: 2px solid #000;
+      margin-bottom: 10px;
+      padding-bottom: 4px;
+    }
+
+    .sheet-title {
+      font-size: 12.5pt;
+      font-weight: bold;
+      margin: 0 0 2px 0;
+    }
+
+    .section-title {
+      font-size: 9.5pt;
+      font-weight: bold;
+      margin: 12px 0 5px 0;
+      background-color: #f0f0f0 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      padding: 3px 6px;
+      border-left: 4px solid #000;
+    }
+
+    .ws-instruction {
+      font-size: 8.5pt;
+      margin-bottom: 8px;
+      color: #000;
+    }
+
+    .rule-box {
+      border: 1.5px solid #000;
+      border-radius: 4px;
+      padding: 6px 12px;
+      margin-bottom: 10px;
+      font-size: 9pt;
+      line-height: 1.5;
+    }
+
+    .ws-list-1col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sheet-question {
+      margin-bottom: 14px;
+      page-break-inside: avoid;
+    }
+
+    .fill-sentence-inline {
+      font-size: 9.5pt;
+      font-weight: bold;
+      line-height: 1.8;
+      margin-bottom: 2px;
+    }
+
+    .underline-space {
+      display: inline-block;
+      border-bottom: 1.5px solid #000;
+      min-width: 75px;
+      height: 18px;
+      margin: 0 4px;
+      vertical-align: baseline;
+    }
+
+    .scramble-words-inline {
+      font-size: 9pt;
+      font-weight: bold;
+      letter-spacing: 0.4px;
+      margin-bottom: 3px;
+      line-height: 1.4;
+    }
+
+    .q-line {
+      border-bottom: 1px dashed #000;
+      height: 22px;
+      width: 98%;
+      margin: 3px 0 2px 0;
+    }
+
+    .ja-subtext {
+      font-size: 8.5pt;
+      color: #333;
+      margin-top: 2px;
+    }
+
+    .answer-key-section {
+      page-break-before: always;
+      margin-top: 15px;
+      border-top: 2px dashed #000;
+      padding-top: 10px;
+      font-size: 8.5pt;
+    }
+
+    .key-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 14px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h2>英検3級 文法 15章 Part4 too ... to 〜 / ... enough to 〜</h2>
+
+<div class="container">
+  <!-- 状況（ショートストーリー・書き換え元文）表示エリア -->
+  <div class="situation-box" id="situationBox">
+    <div class="situation-title">📖 【状況 Situation】</div>
+    <div class="situation-text-en" id="sitEn"></div>
+    <div class="situation-text-ja" id="sitJa"></div>
+  </div>
+
+  <!-- 目標文の和訳 -->
+  <div class="sentence-target-box" id="targetJapanese"></div>
+
+  <!-- タブ領域 -->
+  <div class="tab-container" id="tabContainer"></div>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <div class="progress-text" id="progressText">問 1 / 8</div>
+
+  <div id="game-content">
+    <!-- STEP 1: too / enough の語順と意味選択 -->
+    <div class="step-card" id="step1-card">
+      <div class="step-header">
+        <span class="step-badge">STEP 1</span>
+        <span id="s1-title">程度を表すフレーズを作ろう！</span>
+      </div>
+      <div class="question-instruction" id="s1-inst"></div>
+      <div class="phrase-select-area" id="s1-select-area"></div>
+      <button class="action-btn" id="s1-check-btn" onclick="checkStep1()">STEP 1 完了 ➔</button>
+    </div>
+
+    <!-- STEP 2: 不定詞 vs 動名詞 -->
+    <div class="step-card" id="step2-card" style="display:none;">
+      <div class="step-header">
+        <span class="step-badge">STEP 2</span>
+        <span>後ろに続く不定詞を選ぼう！</span>
+      </div>
+      <div class="question-instruction" id="s2-inst"></div>
+      <div class="phrase-select-area" id="s2-select-area"></div>
+      <button class="action-btn" id="s2-check-btn" onclick="checkStep2()">STEP 2 完了 ➔</button>
+    </div>
+
+    <!-- STEP 3: 全体並べ替え -->
+    <div class="step-card" id="step3-card" style="display:none;">
+      <div class="step-header">
+        <span class="step-badge">STEP 3</span>
+        <span>完成文を作ろう！（並べ替え）</span>
+      </div>
+      <div class="question-instruction" id="s3-inst"></div>
+      <div class="answer-area" id="answerArea"></div>
+      <div id="wordBank" style="text-align: center;"></div>
+      <button class="action-btn" id="s3-check-btn" style="display:none;" onclick="checkStep3()">答えをチェック</button>
+    </div>
+
+    <div id="feedback-area" style="text-align:center; min-height: 40px;"></div>
+    <button class="action-btn" id="nextBtn" style="display:none; background-color: var(--accent-orange); box-shadow: 0 4px 0 #b36b00;" onclick="nextQuestion()">次の問題へ ➔</button>
+  </div>
+</div>
+
+<!-- 印刷用ワークシート -->
+<div id="printable-sheet">
+  <div class="sheet-header">
+    <h1 class="sheet-title">英検3級 文法 15章 Part4 too ... to 〜 / ... enough to 〜</h1>
+  </div>
+
+  <div class="rule-box">
+    <b>【重要ポイント】</b><br>
+    ① <b>too + 形容詞/副詞 + to 動詞の原形</b>：「〜すぎて…できない」（※否定の not は不要！）<br>
+    ② <b>形容詞/副詞 + enough + to 動詞の原形</b>：「…するほど十分に〜だ」（※enough は形容詞の<b>後ろ</b>に置く！）
+  </div>
+
+  <div class="section-title">STEP 1: 穴抜き問題（問1〜問4）</div>
+  <div class="ws-instruction">状況と日本語の意味に合うように、適切な英語（too / enough / to 動詞の原形）を書きなさい。</div>
+  <div class="ws-list-1col" id="ws-step1-list"></div>
+
+  <div class="section-title">STEP 2: 並べ替え問題（問5〜問8）</div>
+  <div class="ws-instruction">語群の単語を正しく並べ替えて英文を完成させなさい。<b>（※どの問題にも使わない語（ダミー）が1語含まれています！too と enough のどちらを使うか見極めて除外すること！）</b></div>
+  <div class="ws-list-1col" id="ws-step2-list"></div>
+
+  <div class="answer-key-section">
+    <h3 style="margin:0 0 5px 0;">【Answer Key / 解答】</h3>
+    <div id="sheet-answers" class="key-grid"></div>
+  </div>
+</div>
+
+<script>
+  function shuffle(array) {
+    let arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  // 全8問のデータ（too ... to 4問 / enough to 4問）
+  const fixedData = [
+    {
+      id: 1,
+      pattern: "too",
+      sitEn: "He couldn't drive because he was very sleepy.",
+      sitJa: "（彼はとても眠かったので、運転することができませんでした。）",
+      targetJa: "彼は眠すぎて運転できませんでした。",
+      s1Title: "「〜すぎる」というフレーズを作ろう！",
+      s1PromptHtml: `He was ( <span style="color:var(--primary-blue);">?</span> ) .<br><span style="font-size:1rem; color:#555;">「眠すぎる」という意味になる正しい語順を選ぼう！</span>`,
+      s1Correct: "too sleepy",
+      s1Opts: ["too sleepy", "sleepy enough", "enough sleepy"],
+      s2PromptHtml: `He was too sleepy ( <span style="color:var(--primary-blue);">?</span> ) .<br><span style="font-size:1rem; color:#555;">「運転するのに（〜すぎて…できない）」に続く正しい形を選ぼう！</span>`,
+      s2Correct: "to drive",
+      s2Opts: ["to drive", "driving", "drive"],
+      fullSentence: "He was too sleepy to drive.",
+      words: ["He", "was", "too", "sleepy", "to", "drive."],
+      dummyWord: "enough",
+      wsBlankDisplay: "He was <span class='underline-space'></span> sleepy <span class='underline-space'></span> drive.",
+      wsBlankAns: "too / to"
+    },
+    {
+      id: 2,
+      pattern: "enough",
+      sitEn: "He was so kind that he helped me.",
+      sitJa: "（彼はとても親切だったので、私を手伝ってくれました。）",
+      targetJa: "彼は私を手伝ってくれるほど十分に親切でした。",
+      s1Title: "「十分なほど〜」というフレーズを作ろう！",
+      s1PromptHtml: `He was ( <span style="color:var(--primary-blue);">?</span> ) .<br><span style="font-size:1rem; color:#555;">「十分に親切だ」という意味になる正しい語順を選ぼう！</span>`,
+      s1Correct: "kind enough",
+      s1Opts: ["kind enough", "enough kind", "too kind"],
+      s2PromptHtml: `He was kind enough ( <span style="color:var(--primary-blue);">?</span> ) me.<br><span style="font-size:1rem; color:#555;">「私を手伝うほど」を表す正しい形を選ぼう！</span>`,
+      s2Correct: "to help",
+      s2Opts: ["to help", "helping", "help"],
+      fullSentence: "He was kind enough to help me.",
+      words: ["He", "was", "kind", "enough", "to", "help", "me."],
+      dummyWord: "too",
+      wsBlankDisplay: "He was <span class='underline-space'></span> <span class='underline-space'></span> to help me.",
+      wsBlankAns: "kind / enough"
+    },
+    {
+      id: 3,
+      pattern: "too",
+      sitEn: "This box is so heavy that I can't carry it.",
+      sitJa: "（この箱はとても重いので、私はそれを運ぶことができません。）",
+      targetJa: "この箱は私にとって重すぎて運べません。",
+      s1Title: "「〜すぎる」というフレーズを作ろう！",
+      s1PromptHtml: `This box is ( <span style="color:var(--primary-blue);">?</span> ) for me ...<br><span style="font-size:1rem; color:#555;">「重すぎる」という意味になる正しい語順を選ぼう！</span>`,
+      s1Correct: "too heavy",
+      s1Opts: ["too heavy", "heavy enough", "enough heavy"],
+      s2PromptHtml: `This box is too heavy for me ( <span style="color:var(--primary-blue);">?</span> ) .<br><span style="font-size:1rem; color:#555;">「運ぶのに」に続く正しい形を選ぼう！</span>`,
+      s2Correct: "to carry",
+      s2Opts: ["to carry", "carrying", "carry"],
+      fullSentence: "This box is too heavy for me to carry.",
+      words: ["This", "box", "is", "too", "heavy", "for", "me", "to", "carry."],
+      dummyWord: "enough",
+      wsBlankDisplay: "This box is <span class='underline-space'></span> heavy for me <span class='underline-space'></span> carry.",
+      wsBlankAns: "too / to"
+    },
+    {
+      id: 4,
+      pattern: "enough",
+      sitEn: "Ken is 18 years old, so he can get a driver's license.",
+      sitJa: "（ケンは18歳なので、運転免許証を取ることができます。）",
+      targetJa: "ケンは運転免許証を取れるほど十分に年をとっています（年齢に達しています）。",
+      s1Title: "「十分なほど〜」というフレーズを作ろう！",
+      s1PromptHtml: `Ken is ( <span style="color:var(--primary-blue);">?</span> ) ...<br><span style="font-size:1rem; color:#555;">「十分に年齢がいっている」という意味になる正しい語順を選ぼう！</span>`,
+      s1Correct: "old enough",
+      s1Opts: ["old enough", "enough old", "too old"],
+      s2PromptHtml: `Ken is old enough ( <span style="color:var(--primary-blue);">?</span> ) a driver's license.<br><span style="font-size:1rem; color:#555;">「免許証を取るほど」を表す正しい形を選ぼう！</span>`,
+      s2Correct: "to get",
+      s2Opts: ["to get", "getting", "get"],
+      fullSentence: "Ken is old enough to get a driver's license.",
+      words: ["Ken", "is", "old", "enough", "to", "get", "a", "driver's", "license."],
+      dummyWord: "too",
+      wsBlankDisplay: "Ken is <span class='underline-space'></span> <span class='underline-space'></span> to get a driver's license.",
+      wsBlankAns: "old / enough"
+    },
+    {
+      id: 5,
+      pattern: "too",
+      sitEn: "The coffee was very hot, so I couldn't drink it.",
+      sitJa: "（そのコーヒーはとても熱かったので、私は飲むことができませんでした。）",
+      targetJa: "そのコーヒーは熱すぎて飲めませんでした。",
+      s1Title: "「〜すぎる」というフレーズを作ろう！",
+      s1PromptHtml: `The coffee was ( <span style="color:var(--primary-blue);">?</span> ) ...<br><span style="font-size:1rem; color:#555;">「熱すぎる」という意味になる正しい語順を選ぼう！</span>`,
+      s1Correct: "too hot",
+      s1Opts: ["too hot", "hot enough", "enough hot"],
+      s2PromptHtml: `The coffee was too hot ( <span style="color:var(--primary-blue);">?</span> ) .<br><span style="font-size:1rem; color:#555;">「飲むのに」に続く正しい形を選ぼう！</span>`,
+      s2Correct: "to drink",
+      s2Opts: ["to drink", "drinking", "drink"],
+      fullSentence: "The coffee was too hot to drink.",
+      words: ["The", "coffee", "was", "too", "hot", "to", "drink."],
+      dummyWord: "enough"
+    },
+    {
+      id: 6,
+      pattern: "enough",
+      sitEn: "She runs very fast, so she can win the race.",
+      sitJa: "（彼女はとても速く走るので、そのレースで勝つことができます。）",
+      targetJa: "彼女はそのレースで勝てるほど十分に速く走ります。",
+      s1Title: "「十分なほど〜」というフレーズを作ろう！",
+      s1PromptHtml: `She runs ( <span style="color:var(--primary-blue);">?</span> ) ...<br><span style="font-size:1rem; color:#555;">「十分に速く」という意味になる正しい語順を選ぼう！</span>`,
+      s1Correct: "fast enough",
+      s1Opts: ["fast enough", "enough fast", "too fast"],
+      s2PromptHtml: `She runs fast enough ( <span style="color:var(--primary-blue);">?</span> ) the race.<br><span style="font-size:1rem; color:#555;">「レースで勝つほど」を表す正しい形を選ぼう！</span>`,
+      s2Correct: "to win",
+      s2Opts: ["to win", "winning", "win"],
+      fullSentence: "She runs fast enough to win the race.",
+      words: ["She", "runs", "fast", "enough", "to", "win", "the", "race."],
+      dummyWord: "too"
+    },
+    {
+      id: 7,
+      pattern: "too",
+      sitEn: "I was so tired that I couldn't study last night.",
+      sitJa: "（昨夜はとても疲れていたので、勉強することができませんでした。）",
+      targetJa: "私は昨夜、疲れすぎて勉強できませんでした。",
+      s1Title: "「〜すぎる」というフレーズを作ろう！",
+      s1PromptHtml: `I was ( <span style="color:var(--primary-blue);">?</span> ) ...<br><span style="font-size:1rem; color:#555;">「疲れすぎる」という意味になる正しい語順を選ぼう！</span>`,
+      s1Correct: "too tired",
+      s1Opts: ["too tired", "tired enough", "enough tired"],
+      s2PromptHtml: `I was too tired ( <span style="color:var(--primary-blue);">?</span> ) last night.<br><span style="font-size:1rem; color:#555;">「勉強するのに」に続く正しい形を選ぼう！</span>`,
+      s2Correct: "to study",
+      s2Opts: ["to study", "studying", "study"],
+      fullSentence: "I was too tired to study last night.",
+      words: ["I", "was", "too", "tired", "to", "study", "last", "night."],
+      dummyWord: "enough"
+    },
+    {
+      id: 8,
+      pattern: "enough",
+      sitEn: "Tom is very tall, so he can reach the top shelf.",
+      sitJa: "（トムはとても背が高いので、一番上の棚に手が届きます。）",
+      targetJa: "トムは一番上の棚に手が届くほど十分に背が高いです。",
+      s1Title: "「十分なほど〜」というフレーズを作ろう！",
+      s1PromptHtml: `Tom is ( <span style="color:var(--primary-blue);">?</span> ) ...<br><span style="font-size:1rem; color:#555;">「十分に背が高い」という意味になる正しい語順を選ぼう！</span>`,
+      s1Correct: "tall enough",
+      s1Opts: ["tall enough", "enough tall", "too tall"],
+      s2PromptHtml: `Tom is tall enough ( <span style="color:var(--primary-blue);">?</span> ) the top shelf.<br><span style="font-size:1rem; color:#555;">「一番上の棚に届くほど」を表す正しい形を選ぼう！</span>`,
+      s2Correct: "to reach",
+      s2Opts: ["to reach", "reaching", "reach"],
+      fullSentence: "Tom is tall enough to reach the top shelf.",
+      words: ["Tom", "is", "tall", "enough", "to", "reach", "the", "top", "shelf."],
+      dummyWord: "too"
+    }
+  ];
+
+  let currentIdx = 0;
+  let userSort = [];
+
+  function initTabs() {
+    const container = document.getElementById('tabContainer');
+    container.innerHTML = "";
+    fixedData.forEach((p, idx) => {
+      const btn = document.createElement('button');
+      btn.className = `tab-btn ${idx === currentIdx ? 'active' : ''}`;
+      btn.textContent = `問 ${idx + 1}`;
+      btn.onclick = () => {
+        currentIdx = idx;
+        renderTabs();
+        loadPage();
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  function renderTabs() {
+    const btns = document.querySelectorAll('.tab-btn');
+    btns.forEach((btn, idx) => {
+      if(idx === currentIdx) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+  }
+
+  function loadPage() {
+    const data = fixedData[currentIdx];
+
+    document.getElementById('sitEn').textContent = data.sitEn;
+    document.getElementById('sitJa').textContent = data.sitJa;
+    document.getElementById('targetJapanese').textContent = `「${data.targetJa}」`;
+
+    document.getElementById('progressBar').style.width = `${((currentIdx + 1) / fixedData.length) * 100}%`;
+    document.getElementById('progressText').textContent = `問 ${currentIdx + 1} / ${fixedData.length}`;
+
+    // カードとボタンの表示初期化
+    document.getElementById('step1-card').style.display = "block";
+    document.getElementById('step2-card').style.display = "none";
+    document.getElementById('s1-check-btn').style.display = "block";
+    document.getElementById('s2-check-btn').style.display = "block";
+
+    const step3Card = document.getElementById('step3-card');
+    step3Card.style.display = "none";
+    step3Card.innerHTML = `
+      <div class="step-header">
+        <span class="step-badge">STEP 3</span>
+        <span>完成文を作ろう！（並べ替え）</span>
+      </div>
+      <div class="question-instruction" id="s3-inst">「${data.targetJa}」</div>
+      <div class="answer-area" id="answerArea"><span style="color:#aaa;">下のパーツをタップして並べ替えてね</span></div>
+      <div id="wordBank" style="text-align: center;"></div>
+      <button class="action-btn" id="s3-check-btn" style="display:none;" onclick="checkStep3()">答えをチェック</button>
+    `;
+
+    document.getElementById('feedback-area').innerHTML = "";
+    document.getElementById('nextBtn').style.display = "none";
+
+    // STEP 1 セット
+    document.getElementById('s1-title').textContent = data.s1Title;
+    document.getElementById('s1-inst').innerHTML = data.s1PromptHtml;
+    renderSelectArea('s1-select-area', data.s1Opts, 's1-select');
+
+    // STEP 2 セット
+    document.getElementById('s2-inst').innerHTML = data.s2PromptHtml;
+    renderSelectArea('s2-select-area', data.s2Opts, 's2-select');
+
+    // STEP 3 セット
+    setupSortArea(data);
+  }
+
+  function renderSelectArea(containerId, opts, selectId) {
+    const area = document.getElementById(containerId);
+    area.innerHTML = "";
+
+    const select = document.createElement('select');
+    select.id = selectId;
+    select.innerHTML = `<option value="">--選択--</option>` + 
+      shuffle([...opts]).map(o => `<option value="${o}">${o}</option>`).join('');
+    area.appendChild(select);
+  }
+
+  function checkStep1() {
+    const data = fixedData[currentIdx];
+    const val = document.getElementById('s1-select').value;
+
+    if (val === data.s1Correct) {
+      document.getElementById('s1-check-btn').style.display = "none";
+      document.getElementById('step2-card').style.display = "block";
+    } else if (val === "") {
+      alert("選択肢を選んでね！");
+    } else {
+      if (data.pattern === "too") {
+        alert("【チェック！】状況の文をよく見てみよう！「〜すぎて…できない」を表すときは【 too + 形容詞/副詞 】の語順を使うよ！");
+      } else {
+        alert("【語順注意！】enough は形容詞・副詞の【後ろ】に置くのが鉄則！\n【 形容詞/副詞 + enough 】の順になるよ！");
+      }
+    }
+  }
+
+  function checkStep2() {
+    const data = fixedData[currentIdx];
+    const val = document.getElementById('s2-select').value;
+
+    if (val === data.s2Correct) {
+      document.getElementById('step1-card').style.display = "none";
+      document.getElementById('step2-card').style.display = "none";
+      document.getElementById('step3-card').style.display = "block";
+    } else if (val === "") {
+      alert("選択肢を選んでね！");
+    } else {
+      alert("【超重要ルール！不定詞 vs 動名詞】\ntoo ... や ... enough の後ろに続くのは、必ず【 to + 動詞の原形（不定詞）】だよ！動名詞（-ing）や原形だけの形は選ばないように注意しよう！");
+    }
+  }
+
+  function setupSortArea(data) {
+    const area = document.getElementById('answerArea');
+    const bank = document.getElementById('wordBank');
+    if (!area || !bank) return;
+
+    userSort = [];
+    bank.innerHTML = "";
+
+    const shuffledWords = shuffle([...data.words]);
+    shuffledWords.forEach(w => {
+      const btn = document.createElement('button');
+      btn.className = 'word-btn';
+      btn.textContent = w;
+      btn.onclick = () => {
+        if (btn.classList.contains('used')) return;
+        if (userSort.length === 0) area.innerHTML = "";
+        userSort.push({ text: w, btn: btn });
+        btn.classList.add('used');
+        renderSort();
+      };
+      bank.appendChild(btn);
+    });
+  }
+
+  function renderSort() {
+    const area = document.getElementById('answerArea');
+    area.innerHTML = "";
+    userSort.forEach((item, idx) => {
+      const b = document.createElement('button');
+      b.className = 'word-btn';
+      b.style.margin = "2px";
+      b.textContent = item.text;
+      b.onclick = () => {
+        item.btn.classList.remove('used');
+        userSort.splice(idx, 1);
+        renderSort();
+        if(userSort.length === 0) area.innerHTML = '<span style="color:#aaa;">下のパーツをタップして並べ替えてね</span>';
+      };
+      area.appendChild(b);
+    });
+
+    const checkBtn = document.getElementById('s3-check-btn');
+    if (userSort.length === fixedData[currentIdx].words.length) {
+      if (checkBtn) checkBtn.style.display = "block";
+    } else {
+      if (checkBtn) checkBtn.style.display = "none";
+    }
+  }
+
+  function checkStep3() {
+    const data = fixedData[currentIdx];
+    let userStr = userSort.map(i => i.text).join(" ");
+    let cleanUser = userStr.replace(/[.,!?]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+    let cleanAns = data.fullSentence.replace(/[.,!?]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+
+    if (cleanUser === cleanAns) {
+      document.getElementById('step3-card').innerHTML = `
+        <div class="celebration-text">
+          ✨ 大正解！ PERFECT! ✨<br>
+          <span style="font-size:1.3rem; color:#333;">${data.fullSentence}</span>
+        </div>
+      `;
+      document.getElementById('nextBtn').style.display = "block";
+    } else {
+      alert("語順を確認してね！\n・too + 形容詞/副詞 + to 動詞の原形\n・形容詞/副詞 + enough + to 動詞の原形\nになっているかな？");
+    }
+  }
+
+  function nextQuestion() {
+    if (currentIdx < fixedData.length - 1) {
+      currentIdx++;
+      renderTabs();
+      loadPage();
+    } else {
+      document.getElementById('situationBox').style.display = "none";
+      document.getElementById('targetJapanese').style.display = "none";
+      document.getElementById('game-content').innerHTML = `
+        <div class='celebration-text'>
+          🎉 全8問コンプリート！完璧です！ 🎉<br>
+          <span style="font-size:1.2rem; color:#2c3e50;">「too ... to 〜」と「〜 enough to 〜」の語順・不定詞の使い方を完全にマスターしました！</span>
+        </div>
+      `;
+      document.getElementById('progressBar').style.width = "100%";
+      document.getElementById('progressText').textContent = `${fixedData.length} / ${fixedData.length} 完成！`;
+    }
+  }
+
+  /* 印刷用ワークシートの生成 */
+  function generatePrintSheet() {
+    const s1ListDiv = document.getElementById('ws-step1-list');
+    const s2ListDiv = document.getElementById('ws-step2-list');
+    const ansDiv = document.getElementById('sheet-answers');
+
+    s1ListDiv.innerHTML = "";
+    s2ListDiv.innerHTML = "";
+    ansDiv.innerHTML = "";
+
+    // STEP 1: 穴抜き問題（問1〜問4）
+    const fillQuestions = fixedData.slice(0, 4);
+    fillQuestions.forEach((item, idx) => {
+      const q = document.createElement('div');
+      q.className = 'sheet-question';
+      q.innerHTML = `
+        <div class="ja-subtext" style="font-weight:bold; color:#000;">【状況】 ${item.sitEn}</div>
+        <div class="fill-sentence-inline">${idx + 1}. ${item.wsBlankDisplay}</div>
+        <div class="ja-subtext">（ ${item.targetJa} ）</div>
+      `;
+      s1ListDiv.appendChild(q);
+    });
+
+    // STEP 2: 並べ替え問題（問5〜問8 ※1語ダミー混入）
+    const sortQuestions = fixedData.slice(4, 8);
+    sortQuestions.forEach((item, idx) => {
+      const q = document.createElement('div');
+      q.className = 'sheet-question';
+      let poolWithDummy = [...item.words, item.dummyWord];
+      let scrambleWords = "( " + shuffle(poolWithDummy).join(" / ") + " )";
+      q.innerHTML = `
+        <div class="ja-subtext" style="font-weight:bold; color:#000;">【状況】 ${item.sitEn}</div>
+        <div class="scramble-words-inline">${idx + 5}. ${scrambleWords} <span style="font-size:8pt; font-weight:normal;">（※1語不要）</span></div>
+        <div class="q-line"></div>
+        <div class="ja-subtext">（ ${item.targetJa} ）</div>
+      `;
+      s2ListDiv.appendChild(q);
+    });
+
+    // 解答キー
+    ansDiv.innerHTML = `
+      <div style="grid-column: 1 / -1; font-weight:bold; margin-bottom:2px; border-bottom:1px solid #000;">【STEP 1 解答 (穴抜き)】</div>
+      ${fillQuestions.map((item, idx) => `<div><b>${idx + 1}.</b> <b>${item.wsBlankAns}</b> <i>(${item.fullSentence})</i></div>`).join('')}
+      <div style="grid-column: 1 / -1; font-weight:bold; margin-top:6px; margin-bottom:2px; border-bottom:1px solid #000;">【STEP 2 解答 (並べ替え ※カッコ内は不要語)】</div>
+      ${sortQuestions.map((item, idx) => `<div><b>${idx + 5}.</b> <i>${item.fullSentence}</i> （不要: <b>${item.dummyWord}</b>）</div>`).join('')}
+    `;
+  }
+
+  window.onload = function() {
+    initTabs();
+    loadPage();
+    generatePrintSheet();
+  };
+</script>
+</body>
+</html>
